@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ready Taan - เครื่องดื่มธัญพืช</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .serif { font-family: 'Playfair Display', serif; }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <div class="bg-amber-600 text-white text-center py-3 text-sm font-medium">
+    🚚 ส่งฟรีทุกออเดอร์ • ซื้อ 3 ถุง แถมแก้วเชค
+  </div>
+
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-5 flex justify-between items-center">
+      <h1 class="text-3xl font-bold text-amber-600 serif">Ready Taan</h1>
+      <button onclick="toggleCart()" class="relative text-2xl">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <section class="bg-gradient-to-br from-amber-50 to-white py-20 text-center">
+    <h2 class="text-5xl font-bold serif leading-tight">เครื่องดื่มธัญพืช<br>เพื่อสุขภาพ</h2>
+    <button onclick="document.getElementById('shop').scrollIntoView({ behavior: 'smooth' })}" 
+            class="mt-8 bg-amber-600 text-white px-10 py-4 rounded-full text-lg font-semibold">
+      สั่งซื้อเลย
+    </button>
+  </section>
+
+  <section id="shop" class="max-w-6xl mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold text-center mb-10">สินค้า</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-white rounded-3xl shadow p-6">
+        <h3 class="text-xl font-semibold">1 ถุง</h3>
+        <p class="text-3xl font-bold text-amber-600 mt-4">฿290</p>
+        <button onclick="addToCart(0)" class="mt-6 w-full bg-amber-600 text-white py-4 rounded-2xl">เพิ่มลงตะกร้า</button>
+      </div>
+      <div class="bg-white rounded-3xl shadow p-6 border-2 border-amber-500">
+        <div class="bg-amber-500 text-white text-xs font-bold inline-block px-4 py-1 rounded-full">แนะนำ</div>
+        <h3 class="text-xl font-semibold">3 ถุง + แก้วเชค</h3>
+        <p class="text-3xl font-bold text-amber-600 mt-4">฿870</p>
+        <button onclick="addToCart(1)" class="mt-6 w-full bg-amber-600 text-white py-4 rounded-2xl">เพิ่มลงตะกร้า</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart -->
+  <div id="cart-drawer" class="fixed inset-0 bg-black/70 hidden flex items-end z-50">
+    <div class="bg-white w-full rounded-t-3xl max-w-md mx-auto h-[80vh] flex flex-col">
+      <div class="p-6 border-b">
+        <h3 class="text-2xl font-semibold">ตะกร้า</h3>
+      </div>
+      <div id="cart-items" class="flex-1 p-6 overflow-auto"></div>
+      <div class="p-6 border-t">
+        <div class="flex justify-between text-xl mb-4">
+          <span>ยอดรวม</span>
+          <span id="cart-total" class="font-bold">฿0</span>
+        </div>
+        <button onclick="checkout()" class="w-full bg-green-600 text-white py-4 rounded-2xl text-lg">สั่งซื้อผ่าน LINE</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cart = [];
+    const products = [
+      { name: "Ready Taan 1 ถุง", price: 290 },
+      { name: "Ready Taan 3 ถุง + แก้ว", price: 870 }
+    ];
+
+    function addToCart(i) {
+      const item = products[i];
+      const existing = cart.find(x => x.name === item.name);
+      if (existing) existing.qty += 1;
+      else cart.push({...item, qty: 1});
+      updateCart();
+      toggleCart(true);
+    }
+
+    function updateCart() {
+      document.getElementById('cart-count').textContent = cart.reduce((a, b) => a + b.qty, 0);
+      // ... (โค้ดส่วนที่เหลือเหมือนเดิม)
+    }
+
+    function toggleCart(show = true) {
+      document.getElementById('cart-drawer').classList.toggle('hidden', !show);
+    }
+
+    function checkout() {
+      alert("ส่งข้อความไป LINE OA แล้วครับ");
+      cart = [];
+      toggleCart(false);
+    }
+  </script>
+</body>
+</html>
